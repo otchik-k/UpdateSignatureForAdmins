@@ -1,0 +1,14 @@
+SQL_ServerName: srv-1c-v2
+SQL_nameDB: RoundCubeMail
+SQL_login: sa
+SQL_pass: PortAl@2
+LDAP_path: DC=sstkvik,DC=local
+AD_atribut_pager_value: no_sig
+company: ООО «Компания В.И.К»
+streetAddress: ул. Ростовское шоссе, 66
+city: г. Краснодар
+telephoneNumber: 8(800)222-52-62
+website: sstkvik.ru
+b2c: b2c.sstkvik.ru
+websiteLink: sstkvik.ru/formail/link.php
+imgLink: sstkvik.ru/formail/index.php
