@@ -74,6 +74,8 @@ public class Functions
 
 
     public static string logName = "log\\log - " + DateTime.Now.ToString("dd.MM.yyyy HH.mm.ss") + ".txt";
+
+
     public static void UsingStreamWriter(string anyString)
     {
         using (StreamWriter logWriter = new StreamWriter(logName, true))

@@ -81,6 +81,18 @@ while (userUnsver != "exit")
         Console.WriteLine("||===================================================||");
 
         userData = GetAdUserAtributs(ldapPath, userData["sAMAccountName"]);
+        if (userData["company"] == null)
+        {
+            userData["company"] = company;
+        }
+        if (userData["streetAddress"] == null)
+        {
+            userData["streetAddress"] = streetAddress;
+        }
+        if (userData["l"] == null)
+        {
+            userData["l"] = city;
+        }
         if (userData["pager"] != adTagMailIgnor && userData["sAMAccountName"] != "tyty")
         {
             string identity_id = GetSqlIdentityID(connectToSQL, userData["cn"], userData["mail"]);
@@ -97,7 +109,7 @@ while (userUnsver != "exit")
                         openDiv + openSpan + userData["l"] + ", " + userData["streetAddress"] + closeSpan + closeDiv + "\r\n" +
                         openDiv + openSpan + "Mail:         " + closeSpan +
                         openSpan + openStrong + "<a href=\"mailto:" + userData["mail"] + "\">" + userData["mail"] + "</a>" + closeStrong + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + "Phone:      8 (800)-222-52-62 доп:" + userData["telephoneNumber"] + "  " + closeSpan + closeDiv + "\r\n" +
+                        openDiv + openSpan + "Phone: " + telephoneNumber + " доп: " + userData["telephoneNumber"] + "  " + closeSpan + closeDiv + "\r\n" +
                         openDiv + openSpan + openStrong + "website     " + "<a href=\"https://" + website + "\" rel=\"noopener\">" + website + "</a>" + closeStrong + closeSpan + closeDiv + "\r\n" +
                         openDiv + openSpan + openStrong + "b2c          " + "<a href=\"https://" + b2c + "\" rel=\"noopener\">" + b2c + "</a>" + closeStrong + closeSpan + closeDiv + "\r\n" +
                         openDiv + closeDiv + "\r\n" + openDiv + "<a href=\"https://" + websiteLink + "\" rel=\"noopener noreferrer\">" + "<img src=\"https://" + imgLink + "\" />" + "</a>" + closeDiv;
@@ -111,7 +123,7 @@ while (userUnsver != "exit")
                         openDiv + openSpan + userData["l"] + ", " + userData["streetAddress"] + closeSpan + closeDiv + "\r\n" +
                         openDiv + openSpan + "Mail:         " + closeSpan +
                         openSpan + openStrong + "<a href=\"mailto:" + userData["mail"] + "\">" + userData["mail"] + "</a>" + closeStrong + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + "Phone:      8 (800)-222-52-62 доп:" + userData["telephoneNumber"] + "  " + closeSpan + closeDiv + "\r\n" +
+                        openDiv + openSpan + "Phone: " + telephoneNumber + " доп: " + userData["telephoneNumber"] + "  " + closeSpan + closeDiv + "\r\n" +
                         openDiv + openSpan + "Mobile:      " + userData["mobile"] + "  " + closeSpan + closeDiv + "\r\n" +
                         openDiv + openSpan + openStrong + "website     " + "<a href=\"https://" + website + "\" rel=\"noopener\">" + website + "</a>" + closeStrong + closeSpan + closeDiv + "\r\n" +
                         openDiv + openSpan + openStrong + "b2c          " + "<a href=\"https://" + b2c + "\" rel=\"noopener\">" + b2c + "</a>" + closeStrong + closeSpan + closeDiv + "\r\n" +
@@ -172,22 +184,6 @@ while (userUnsver != "exit")
             userDataList[i]["l"] = userDataSearch["l"];
             userDataList[i]["pager"] = userDataSearch["pager"];
 
-            if (userDataList[i]["company"] == null)
-            {
-                userDataList[i]["company"] = "ООО «Компания В.И.К»";
-            }
-            if (userDataList[i]["streetAddress"] == null)
-            {
-                userDataList[i]["streetAddress"] = "ул. Ростовское шоссе, 66";
-            }
-            if (userDataList[i]["l"] == null)
-            {
-                userDataList[i]["l"] = "г. Краснодар";
-            }
-            if (userDataList[i]["telephoneNumber"] == null)
-            {
-                userDataList[i]["telephoneNumber"] = telephoneNumber;
-            }
         }
 
         userDataList.RemoveAll(dict => (dict["mail"] == null));
