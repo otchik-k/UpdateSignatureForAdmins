@@ -3,6 +3,7 @@ using static Const;
 using static Functions;
 
 Directory.CreateDirectory("./log");
+Directory.CreateDirectory("./conf");
 
 string sqlServerName;
 string sqlNameDB;
@@ -16,8 +17,11 @@ string city;
 string telephoneNumber;
 string website;
 string b2c;
-string websiteLink;
-string imgLink;
+string vkLink;
+string okLink;
+string telegramLink;
+string rutubeLink;
+
 
 using (StreamReader ReaderObject = new StreamReader(configFilelway))
 {
@@ -35,8 +39,10 @@ using (StreamReader ReaderObject = new StreamReader(configFilelway))
     telephoneNumber = GetParametrValue(fileData[9], ": ")[1];
     website = GetParametrValue(fileData[10], ": ")[1];
     b2c = GetParametrValue(fileData[11], ": ")[1];
-    websiteLink = GetParametrValue(fileData[12], ": ")[1];
-    imgLink = GetParametrValue(fileData[13], ": ")[1];
+    vkLink = GetParametrValue(fileData[12], ": ")[1];
+    okLink = GetParametrValue(fileData[13], ": ")[1];
+    telegramLink = GetParametrValue(fileData[14], ": ")[1];
+    rutubeLink = GetParametrValue(fileData[15], ": ")[1];
 }
 
 string connectToSQL =
@@ -100,35 +106,75 @@ while (userUnsver != "exit")
             string signatureText = "";
             if (identity_id != null)
             {
-                if (userData["mobile"] == null)
-                {
-                    signatureText = openDiv + openSpan + "С уважением," + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + userData["cn"] + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + userData["title"] + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + userData["company"] + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + userData["l"] + ", " + userData["streetAddress"] + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + "Mail:         " + closeSpan +
-                        openSpan + openStrong + "<a href=\"mailto:" + userData["mail"] + "\">" + userData["mail"] + "</a>" + closeStrong + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + "Phone: " + telephoneNumber + " доп: " + userData["telephoneNumber"] + "  " + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + openStrong + "website     " + "<a href=\"https://" + website + "\" rel=\"noopener\">" + website + "</a>" + closeStrong + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + openStrong + "b2c          " + "<a href=\"https://" + b2c + "\" rel=\"noopener\">" + b2c + "</a>" + closeStrong + closeSpan + closeDiv + "\r\n" +
-                        openDiv + closeDiv + "\r\n" + openDiv + "<a href=\"https://" + websiteLink + "\" rel=\"noopener noreferrer\">" + "<img src=\"https://" + imgLink + "\" />" + "</a>" + closeDiv;
-                }
-                else
-                {
-                    signatureText = openDiv + openSpan + "С уважением," + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + userData["cn"] + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + userData["title"] + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + userData["company"] + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + userData["l"] + ", " + userData["streetAddress"] + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + "Mail:         " + closeSpan +
-                        openSpan + openStrong + "<a href=\"mailto:" + userData["mail"] + "\">" + userData["mail"] + "</a>" + closeStrong + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + "Phone: " + telephoneNumber + " доп: " + userData["telephoneNumber"] + "  " + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + "Mobile:      " + userData["mobile"] + "  " + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + openStrong + "website     " + "<a href=\"https://" + website + "\" rel=\"noopener\">" + website + "</a>" + closeStrong + closeSpan + closeDiv + "\r\n" +
-                        openDiv + openSpan + openStrong + "b2c          " + "<a href=\"https://" + b2c + "\" rel=\"noopener\">" + b2c + "</a>" + closeStrong + closeSpan + closeDiv + "\r\n" +
-                        openDiv + closeDiv + "\r\n" + openDiv + "<a href=\"https://" + websiteLink + "\" rel=\"noopener noreferrer\">" + "<img src=\"https://" + imgLink + "\" />" + "</a>" + closeDiv;
-                }
+                signatureText = "<div style=\"background-color: #ffffff; max-width: 800px; font-family: 'Montserrat', Arial, sans-serif; margin: 0 left; padding: 10px 0;\">" +
+                    "\r\n<table style=\"background-image: url('https://mail.sstkvik.ru/signature/back.jpg'); border-spacing: 0px;\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">" +
+                    "\r\n<tbody>" +
+                    "\r\n<tr>" +
+                    "\r\n<td style=\"color: white; font-size: 14px; min-width: 350px; max-width: 300px;\">" +
+                    "\r\n<div style=\"padding-left: 20px; max-width: 315px; padding-top: 5px;\">С уважением,</div>" +
+                    "\r\n<div style=\"padding-left: 20px; font-weight: bold;\">" + userData["cn"] + "</div>" +
+                    "\r\n<hr style=\"border: 0; height: 2px; background-color: #8b00ff; width: 73%; margin-top: 2px; margin-bottom: 2px; margin-left: 20px;\" align=\"left\" />" +
+                    "\r\n<div style=\"padding-left: 20px;\">" + userData["title"] + "</div>" +
+                    "\r\n<div style=\"padding-left: 20px; padding-bottom: 5px;\">" + userData["company"] + "</div>" +
+                    "\r\n</td>" +
+                    "\r\n<td style=\"vertical-align: center; max-width: 365;\">" +
+                    "\r\n<table style=\"border-spacing: 0px; width: 100%;\" cellspacing=\"0\" cellpadding=\"0\">" +
+                    "\r\n<tbody>" +
+                    "\r\n<tr>" +
+                    "\r\n<td style=\"vertical-align: center; width: 70%;\">" +
+                    "\r\n<table style=\"border-spacing: 1; margin-bottom: 0px;\" cellspacing=\"0\" cellpadding=\"0\">" +
+                    "\r\n<tbody>" +
+                    "\r\n<tr>" +
+                    "\r\n<td style=\"padding-left: 20px; padding-bottom: 2px; vertical-align: middle;\" width=\"20\"><img src=\"https://mail.sstkvik.ru/signature/phone.png\" alt=\"Телефон\" width=\"25\" height=\"25\" /></td>" +
+                    "\r\n<td style=\"padding-left: 8px; font-size: 13px;\">" + telephoneNumber + " (доб. " + userData["telephoneNumber"] + ")</td>" +
+                    "\r\n</tr>" +
+                    "\r\n</tbody>" +
+                    "\r\n</table>" +
+                    "\r\n<table style=\"border-spacing: 1; margin-bottom: 0px;\" cellspacing=\"0\" cellpadding=\"0\">" +
+                    "\r\n<tbody>" +
+                    "\r\n<tr>" +
+                    "\r\n<td style=\"padding-left: 20px; padding-bottom: 2px; vertical-align: middle;\" width=\"20\"><img src=\"https://mail.sstkvik.ru/signature/addres.png\" alt=\"Адрес\" width=\"25\" height=\"25\" /></td>" +
+                    "\r\n<td style=\"padding-left: 8px; font-size: 13px;\">" + userData["streetAddress"]  + "</td>" +
+                    "\r\n</tr>" +
+                    "\r\n</tbody>" +
+                    "\r\n</table>" +
+                    "\r\n<table style=\"border-spacing: 1; margin-bottom: 0px;\" cellspacing=\"0\" cellpadding=\"0\">" +
+                    "\r\n<tbody>" +
+                    "\r\n<tr>" +
+                    "\r\n<td style=\"padding-left: 20px; vertical-align: middle;\" width=\"20\"><img src=\"https://mail.sstkvik.ru/signature/site.png\" alt=\"Сайт\" width=\"25\" height=\"25\" /></td>" +
+                    "\r\n<td style=\"padding-left: 8px;\"><a style=\"color: #333; text-decoration: none; font-size: 13px;\" href=\"https://" + website +"\">" + website + "</a></td>" +
+                    "\r\n</tr>" +
+                    "\r\n</tbody>" +
+                    "\r\n</table>" +
+                    "\r\n</td>" +
+                    "\r\n<td style=\"padding-left: 0px; vertical-align: center; text-align: center; width: 20%;\"><img src=\"https://mail.sstkvik.ru/signature/qr-code/QR-code.png\" alt=\"QR-код\" width=\"75\" height=\"75\" /></td>" +
+                    "\r\n</tr>" +
+                    "\r\n</tbody>" +
+                    "\r\n</table>" +
+                    "\r\n</td>" +
+                    "\r\n</tr>" +
+                    "\r\n</tbody>" +
+                    "\r\n</table>" +
+                    "\r\n<div style=\"margin-top: 20px;\"><img src=\"https://mail.sstkvik.ru/signature/car.gif\" width=\"800\" /></div>\r\n<table style=\"border-spacing: 0;\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">" +
+                    "\r\n<tbody>" +
+                    "\r\n<tr>" +
+                    "\r\n<td style=\"padding-top: 0px; vertical-align: top; width: 50%;\">" +
+                    "\r\n<table style=\"border-spacing: 0;\" cellspacing=\"0\" cellpadding=\"0\">" +
+                    "\r\n<tbody>" +
+                    "\r\n<tr>" +
+                    "\r\n<td style=\"padding-right: 20px; padding-left: 20px;\"><a style=\"text-decoration: none;\" href=\"https://" + vkLink + "\"> <img src=\"https://mail.sstkvik.ru/signature/VK.png\" alt=\"ВК\" width=\"30\" height=\"30\" /> </a></td>" +
+                    "\r\n<td style=\"padding-right: 20px;\"><a style=\"text-decoration: none;\" href=\"https://" + telegramLink + "\"> <img src=\"https://mail.sstkvik.ru/signature/Telegram.png\" alt=\"ТЕЛЕГРАМ\" width=\"30\" height=\"30\" /> </a></td>" +
+                    "\r\n<td style=\"padding-right: 20px;\"><a style=\"text-decoration: none;\" href=\"https://" + rutubeLink + "\"> <img src=\"https://mail.sstkvik.ru/signature/Rutube.png\" alt=\"РУТУБ\" width=\"30\" height=\"30\" /> </a></td>" +
+                    "\r\n<td style=\"padding-right: 20px;\"><a style=\"text-decoration: none;\" href=\"https://" + okLink + "\"> <img src=\"https://mail.sstkvik.ru/signature/ok.png\" alt=\"ОДНОКЛАССНИКИ\" width=\"30\" height=\"30\" /> </a></td>" +
+                    "\r\n</tr>" +
+                    "\r\n</tbody>" +
+                    "\r\n</table>" +
+                    "\r\n</td>" +
+                    "\r\n<td style=\"text-align: right; vertical-align: center; margin-bottom: 3px;\"><a href=\"https://yandex.ru/maps/org/61800352341\"><img src=\"https://mail.sstkvik.ru/signature/yandexStar.png\" alt=\"Яндекс\" width=\"297\" height=\"17\" /></a></td>" +
+                    "\r\n</tr>" +
+                    "\r\n</tbody>" +
+                    "\r\n</table>" +
+                    "\r\n</div>";
 
                 if (identity_id != "" && GetSqlSignature(connectToSQL, identity_id) != signatureText)
                 {
