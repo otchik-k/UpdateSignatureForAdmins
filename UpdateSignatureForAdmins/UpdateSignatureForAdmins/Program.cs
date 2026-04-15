@@ -27,12 +27,12 @@ using (StreamReader ReaderObject = new StreamReader(configFilelway))
 {
     string[] fileData = new string[] { };
     fileData = ReaderObject.ReadToEnd().Split('\n');
-    sqlServerName = GetParametrValue(fileData[0], " ")[1];
-    sqlNameDB = GetParametrValue(fileData[1], " ")[1];
-    sqlUserName = GetParametrValue(fileData[2], " ")[1];
-    sqlPassword = GetParametrValue(fileData[3], " ")[1];
-    ldapPath = GetParametrValue(fileData[4], " ")[1];
-    adTagMailIgnor = GetParametrValue(fileData[5], " ")[1];
+    sqlServerName = GetParametrValue(fileData[0], ": ")[1];
+    sqlNameDB = GetParametrValue(fileData[1], ": ")[1];
+    sqlUserName = GetParametrValue(fileData[2], ": ")[1];
+    sqlPassword = GetParametrValue(fileData[3], ": ")[1];
+    ldapPath = GetParametrValue(fileData[4], ": ")[1];
+    adTagMailIgnor = GetParametrValue(fileData[5], ": ")[1];
     company = GetParametrValue(fileData[6], ": ")[1];
     streetAddress = GetParametrValue(fileData[7], ": ")[1];
     city = GetParametrValue(fileData[8], ": ")[1];
@@ -45,7 +45,21 @@ using (StreamReader ReaderObject = new StreamReader(configFilelway))
     rutubeLink = GetParametrValue(fileData[15], ": ")[1];
 }
 
-string connectToSQL =
+
+List<string> longTitleNames = new List<string>();
+List<string> shortTitleNames = new List<string>();
+using (StreamReader ReaderObject = new StreamReader(titleListFileWay))
+{
+    string[] fileData = new string[] { };
+    fileData = ReaderObject.ReadToEnd().Split('\n');
+    for (int i = 0; i < fileData.Length; i++)
+    {
+        longTitleNames.Add(GetParametrValue(fileData[i], " :")[0]);
+        shortTitleNames.Add(GetParametrValue(fileData[i], ": ")[1]);
+    }
+}
+
+    string connectToSQL =
 $"Data Source={sqlServerName};" +
     $"Initial Catalog={sqlNameDB};" +
     $"User ID={sqlUserName};" +
@@ -87,6 +101,13 @@ while (userUnsver != "exit")
         Console.WriteLine("||===================================================||");
 
         userData = GetAdUserAtributs(ldapPath, userData["sAMAccountName"]);
+        for (int i = 0; i < longTitleNames.Count; i++)
+        {
+            if (userData["title"] == longTitleNames[i])
+            {
+                userData["title"] = shortTitleNames[i];
+            }
+        }
         if (userData["company"] == null)
         {
             userData["company"] = company;
@@ -99,6 +120,10 @@ while (userUnsver != "exit")
         {
             userData["l"] = city;
         }
+
+        userData["l"] = userData["l"].Remove(userData["l"].Length - 1);
+        string сityStreet = userData["l"] + ", " + userData["streetAddress"];
+
         if (userData["pager"] != adTagMailIgnor && userData["sAMAccountName"] != "tyty")
         {
             string identity_id = GetSqlIdentityID(connectToSQL, userData["cn"], userData["mail"]);
@@ -134,7 +159,7 @@ while (userUnsver != "exit")
                     "\r\n<tbody>" +
                     "\r\n<tr>" +
                     "\r\n<td style=\"padding-left: 20px; padding-bottom: 2px; vertical-align: middle;\" width=\"20\"><img src=\"https://mail.sstkvik.ru/signature/addres.png\" alt=\"Адрес\" width=\"25\" height=\"25\" /></td>" +
-                    "\r\n<td style=\"padding-left: 8px; font-size: 13px;\">" + userData["streetAddress"]  + "</td>" +
+                    "\r\n<td style=\"padding-left: 8px; font-size: 13px;\">" + сityStreet + "</td>" +
                     "\r\n</tr>" +
                     "\r\n</tbody>" +
                     "\r\n</table>" +
@@ -233,6 +258,8 @@ while (userUnsver != "exit")
         }
 
         userDataList.RemoveAll(dict => (dict["mail"] == null));
+
+
 
         UsingStreamWriter("||=============Email, которые следует пропустить==============||");
         UsingStreamWriter("||====================так как pager=" + adTagMailIgnor  + "====================||");

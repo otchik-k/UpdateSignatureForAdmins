@@ -225,6 +225,7 @@ public class Functions
         return cat;
     }
 
+
     public static List<string> GetSqlAllMail(string coccectToSQL)
     {
         List<string> result = new List<string>();

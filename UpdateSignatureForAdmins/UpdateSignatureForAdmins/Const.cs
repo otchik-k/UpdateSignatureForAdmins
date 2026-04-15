@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 public class Const
 {
     public const string configFilelway = "conf\\config.txt";
+    public const string titleListFileWay = "conf\\abbreviatedTiitleList.txt";
 }
 
