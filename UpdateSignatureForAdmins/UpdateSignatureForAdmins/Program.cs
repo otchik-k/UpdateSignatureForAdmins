@@ -120,6 +120,10 @@ while (userUnsver != "exit")
         {
             userData["l"] = city;
         }
+        if (userData["mobile"] != null)
+        {
+            userData["mobile"] = ", " + userData["mobile"];
+        }
 
         userData["l"] = userData["l"].Remove(userData["l"].Length - 1);
         string сityStreet = userData["l"] + ", " + userData["streetAddress"];
@@ -151,7 +155,7 @@ while (userUnsver != "exit")
                     "\r\n<tbody>" +
                     "\r\n<tr>" +
                     "\r\n<td style=\"padding-left: 20px; padding-bottom: 2px; vertical-align: middle;\" width=\"20\"><img src=\"https://mail.sstkvik.ru/signature/phone.png\" alt=\"Телефон\" width=\"25\" height=\"25\" /></td>" +
-                    "\r\n<td style=\"padding-left: 8px; font-size: 13px;\">" + telephoneNumber + " (доб. " + userData["telephoneNumber"] + ")</td>" +
+                    "\r\n<td style=\"padding-left: 8px; font-size: 12px;\">" + telephoneNumber + " (доб. " + userData["telephoneNumber"] + ")" + userData["mobile"] + "</td>" +
                     "\r\n</tr>" +
                     "\r\n</tbody>" +
                     "\r\n</table>" +
