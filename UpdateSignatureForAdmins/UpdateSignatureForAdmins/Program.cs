@@ -108,9 +108,9 @@ while (userUnsver != "exit")
                 userData["title"] = shortTitleNames[i];
             }
         }
-        if (userData["company"] == null)
+        if (userData["company"] != "Компания В.И.К")
         {
-            userData["company"] = company;
+            userData["company"] = "&nbsp;";
         }
         if (userData["streetAddress"] == null)
         {
@@ -118,14 +118,13 @@ while (userUnsver != "exit")
         }
         if (userData["l"] == null)
         {
-            userData["l"] = city;
+            userData["l"] = city.Substring(0, city.Length - 1);
         }
         if (userData["mobile"] != null)
         {
             userData["mobile"] = ", " + userData["mobile"];
         }
 
-        userData["l"] = userData["l"].Remove(userData["l"].Length - 1);
         string сityStreet = userData["l"] + ", " + userData["streetAddress"];
 
         if (userData["pager"] != adTagMailIgnor && userData["sAMAccountName"] != "tyty")
@@ -191,10 +190,10 @@ while (userUnsver != "exit")
                     "\r\n<table style=\"border-spacing: 0;\" cellspacing=\"0\" cellpadding=\"0\">" +
                     "\r\n<tbody>" +
                     "\r\n<tr>" +
-                    "\r\n<td style=\"padding-right: 20px; padding-left: 20px;\"><a style=\"text-decoration: none;\" href=\"https://" + vkLink + "\"> <img src=\"https://mail.sstkvik.ru/signature/VK.png\" alt=\"ВК\" width=\"30\" height=\"30\" /> </a></td>" +
-                    "\r\n<td style=\"padding-right: 20px;\"><a style=\"text-decoration: none;\" href=\"https://" + telegramLink + "\"> <img src=\"https://mail.sstkvik.ru/signature/Telegram.png\" alt=\"ТЕЛЕГРАМ\" width=\"30\" height=\"30\" /> </a></td>" +
-                    "\r\n<td style=\"padding-right: 20px;\"><a style=\"text-decoration: none;\" href=\"https://" + rutubeLink + "\"> <img src=\"https://mail.sstkvik.ru/signature/Rutube.png\" alt=\"РУТУБ\" width=\"30\" height=\"30\" /> </a></td>" +
-                    "\r\n<td style=\"padding-right: 20px;\"><a style=\"text-decoration: none;\" href=\"https://" + okLink + "\"> <img src=\"https://mail.sstkvik.ru/signature/ok.png\" alt=\"ОДНОКЛАССНИКИ\" width=\"30\" height=\"30\" /> </a></td>" +
+                    "\r\n<td style=\"padding-right: 20px; padding-left: 20px; padding-bottom: 5px;\"><a style=\"text-decoration: none;\" href=\"https://" + vkLink + "\"> <img src=\"https://mail.sstkvik.ru/signature/VK.png\" alt=\"ВК\" width=\"30\" height=\"30\" /> </a></td>" +
+                    "\r\n<td style=\"padding-right: 20px;\"><a style=\"text-decoration: none; padding-bottom: 5px;\" href=\"https://" + telegramLink + "\"> <img src=\"https://mail.sstkvik.ru/signature/Telegram.png\" alt=\"ТЕЛЕГРАМ\" width=\"30\" height=\"30\" /> </a></td>" +
+                    "\r\n<td style=\"padding-right: 20px;\"><a style=\"text-decoration: none; padding-bottom: 5px;\" href=\"https://" + rutubeLink + "\"> <img src=\"https://mail.sstkvik.ru/signature/Rutube.png\" alt=\"РУТУБ\" width=\"30\" height=\"30\" /> </a></td>" +
+                    "\r\n<td style=\"padding-right: 20px;\"><a style=\"text-decoration: none; padding-bottom: 5px;\" href=\"https://" + okLink + "\"> <img src=\"https://mail.sstkvik.ru/signature/ok.png\" alt=\"ОДНОКЛАССНИКИ\" width=\"30\" height=\"30\" /> </a></td>" +
                     "\r\n</tr>" +
                     "\r\n</tbody>" +
                     "\r\n</table>" +
@@ -203,6 +202,7 @@ while (userUnsver != "exit")
                     "\r\n</tr>" +
                     "\r\n</tbody>" +
                     "\r\n</table>" +
+                    "\r\n<a href = \"https://sstkvik.ru/formail/link.php\" rel = \"noopener noreferrer\"><img src = \"https://sstkvik.ru/formail/index.php\" /></a></div>" +
                     "\r\n</div>";
 
                 if (identity_id != "" && GetSqlSignature(connectToSQL, identity_id) != signatureText)
