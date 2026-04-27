@@ -323,7 +323,7 @@ while (userUnsver != cmdForExit)
             FindeNameDoesntExistAd(connectToSQL, userDataList[i]["mail"], userDataList[i]["cn"]);
         }
 
-        Console.WriteLine("|| Информацию ищи в файле " + configFilelway + "                ||");
+        Console.WriteLine("|| Информацию ищи в файле " + logName + "                ||");
     }
 
     if (userUnsver == "3")
@@ -376,6 +376,8 @@ while (userUnsver != cmdForExit)
             signatureCode = (GetSqlSignature(connectToSQL, userIdentity));
             CodeStreamWriter(signatureCode);
         }
+
+        Console.WriteLine("|| Информацию ищи в файле " + CodeFile + "                ||");
 
     }
 
