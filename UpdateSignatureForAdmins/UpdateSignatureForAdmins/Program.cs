@@ -68,7 +68,7 @@ $"Data Source={sqlServerName};" +
     $"TrustServerCertificate=true";
 
 string userUnsver = "";
-while (userUnsver != "exit")
+while (userUnsver != cmdForExit)
 {
     Dictionary<string, string> userData = new Dictionary<string, string>
         {
@@ -87,7 +87,7 @@ while (userUnsver != "exit")
     Console.WriteLine("|| Обновляем подпись, или формируем списки?          ||");
     Console.WriteLine("|| 1. Обновляем подпись                              ||");
     Console.WriteLine("|| 2. Форируем списки                                ||");
-    Console.WriteLine("|| Вводи номер действия или напиши exit, чтобы выйти ||");
+    Console.WriteLine("|| Вводи номер действия или напиши " + cmdForExit + ", чтобы выйти ||");
     Console.WriteLine("||===================================================||");
     Console.Write("|| ");
     userUnsver = Console.ReadLine();
@@ -108,7 +108,7 @@ while (userUnsver != "exit")
                 userData["title"] = shortTitleNames[i];
             }
         }
-        if (userData["company"] != "Компания В.И.К")
+        if (userData["company"] != companyName)
         {
             userData["company"] = "&nbsp;";
         }
@@ -322,20 +322,20 @@ while (userUnsver != "exit")
             FindeNameDoesntExistAd(connectToSQL, userDataList[i]["mail"], userDataList[i]["cn"]);
         }
 
-        Console.WriteLine("|| Информацию ищи в файле log\\log.txt                ||");
+        Console.WriteLine("|| Информацию ищи в файле " + configFilelway + "                ||");
     }
 
-    if (userUnsver != "1" && userUnsver != "2" && userUnsver != "exit")
+    if (userUnsver != "1" && userUnsver != "2" && userUnsver != cmdForExit)
     {
         Console.WriteLine("||===================================================||");
         Console.WriteLine("|| Сам ты " + userUnsver);
         Console.WriteLine("|| Напиши 1 или 2, в зависимости от того, что хочешь ||");
         Console.WriteLine("|| сделать!                                          ||");
-        Console.WriteLine("|| Чтобы выйти, напиши exit                          ||");
+        Console.WriteLine("|| Чтобы выйти, напиши " + cmdForExit + " || ");
         Console.WriteLine("||===================================================||");
     }
 
-    if (userUnsver == "exit")
+    if (userUnsver == cmdForExit)
     {
 
     }
