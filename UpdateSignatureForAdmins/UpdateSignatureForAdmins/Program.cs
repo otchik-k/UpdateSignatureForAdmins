@@ -83,12 +83,13 @@ while (userUnsver != cmdForExit)
             {"mobile", "" },
             {"pager", "" }
         };
-    Console.WriteLine("||===================================================||");
-    Console.WriteLine("|| Обновляем подпись, или формируем списки?          ||");
-    Console.WriteLine("|| 1. Обновляем подпись                              ||");
-    Console.WriteLine("|| 2. Форируем списки                                ||");
-    Console.WriteLine("|| Вводи номер действия или напиши " + cmdForExit + ", чтобы выйти ||");
-    Console.WriteLine("||===================================================||");
+    Console.WriteLine("||===================================================");
+    Console.WriteLine("|| Обновляем подпись, или формируем списки?          ");
+    Console.WriteLine("|| 1. Обновляем подпись                              ");
+    Console.WriteLine("|| 2. Форируем списки                                ");
+    Console.WriteLine("|| 3. Собрать все подписи в файл                     ");
+    Console.WriteLine("|| Вводи номер действия или напиши " + cmdForExit + ", чтобы выйти ");
+    Console.WriteLine("||===================================================");
     Console.Write("|| ");
     userUnsver = Console.ReadLine();
 
@@ -325,14 +326,67 @@ while (userUnsver != cmdForExit)
         Console.WriteLine("|| Информацию ищи в файле " + configFilelway + "                ||");
     }
 
-    if (userUnsver != "1" && userUnsver != "2" && userUnsver != cmdForExit)
+    if (userUnsver == "3")
     {
-        Console.WriteLine("||===================================================||");
+        List<Dictionary<string, string>> userDataList = new List<Dictionary<string, string>>();
+        List<string> adLoginList = new List<string>();
+        adLoginList = CutNullData(GetAllLoginAd(ldapPath).ToArray());
+
+        for (int i = 0; i < adLoginList.Count; i++)
+        {
+            Dictionary<string, string> userDataCopy = new Dictionary<string, string>(userData);
+            userDataCopy["sAMAccountName"] = adLoginList[i];
+            userDataList.Add(userDataCopy);
+        }
+
+        for (int i = 0; i < userDataList.Count; i++)
+        {
+            Dictionary<string, string> userDataSearch = GetAdUserAtributs(ldapPath, userDataList[i]["sAMAccountName"]);
+
+            userDataList[i]["cn"] = userDataSearch["cn"];
+            userDataList[i]["title"] = userDataSearch["title"];
+            userDataList[i]["company"] = userDataSearch["company"];
+            userDataList[i]["streetAddress"] = userDataSearch["streetAddress"];
+            userDataList[i]["mail"] = userDataSearch["mail"];
+            userDataList[i]["telephoneNumber"] = userDataSearch["telephoneNumber"];
+            userDataList[i]["mobile"] = userDataSearch["mobile"];
+            userDataList[i]["l"] = userDataSearch["l"];
+            userDataList[i]["pager"] = userDataSearch["pager"];
+
+        }
+
+        userDataList.RemoveAll(dict => (dict["mail"] == null));
+        userDataList.RemoveAll(dict => (dict["pager"] == adTagMailIgnor));
+
+        var allDuplicates = userDataList
+            .GroupBy(dict => dict["mail"])
+            .Where(group => group.Count() > 1)
+            .SelectMany(group => group)
+            .ToList();
+        for (int i = 0; i < allDuplicates.Count; i++)
+        {
+            userDataList.RemoveAll(dict => (dict["mail"] == allDuplicates[i]["mail"]));
+        }
+
+        string userIdentity;
+        string signatureCode;
+        for (int i = 0; i < userDataList.Count; i++)
+        {
+            userIdentity = GetSqlIdentityID(connectToSQL, userDataList[i]["cn"], userDataList[i]["mail"]);
+            signatureCode = (GetSqlSignature(connectToSQL, userIdentity));
+            CodeStreamWriter(signatureCode);
+        }
+
+    }
+
+    if (userUnsver != "1" && userUnsver != "2" && userUnsver != cmdForExit && userUnsver != "3")
+    {
+        Console.WriteLine("||===================================================");
         Console.WriteLine("|| Сам ты " + userUnsver);
-        Console.WriteLine("|| Напиши 1 или 2, в зависимости от того, что хочешь ||");
-        Console.WriteLine("|| сделать!                                          ||");
-        Console.WriteLine("|| Чтобы выйти, напиши " + cmdForExit + " || ");
-        Console.WriteLine("||===================================================||");
+        Console.WriteLine("|| Напиши 1, 2 или 3 в зависимости от того, что хочешь ");
+        Console.WriteLine("|| сделать!                                          ");
+        Console.WriteLine("|| Чтобы выйти, напиши " + cmdForExit + "  ");
+        Console.WriteLine("||===================================================");
     }
 
     if (userUnsver == cmdForExit)

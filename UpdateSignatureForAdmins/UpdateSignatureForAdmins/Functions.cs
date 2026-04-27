@@ -74,11 +74,20 @@ public class Functions
 
 
     public static string logName = "log\\log - " + DateTime.Now.ToString("dd.MM.yyyy HH.mm.ss") + ".txt";
+    public static string CodeFile = "log\\HTMLcode - " + DateTime.Now.ToString("dd.MM.yyyy HH.mm.ss") + ".html";
 
 
     public static void UsingStreamWriter(string anyString)
     {
         using (StreamWriter logWriter = new StreamWriter(logName, true))
+        {
+            logWriter.WriteLine(anyString);
+        }
+    }
+
+    public static void CodeStreamWriter(string anyString)
+    {
+        using (StreamWriter logWriter = new StreamWriter(CodeFile, true))
         {
             logWriter.WriteLine(anyString);
         }
